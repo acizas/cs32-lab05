@@ -1,0 +1,9 @@
+
+Table(const& Table);
+~Table();
+Table& operator=(const Table&);
+
+
+
+
+
