@@ -149,54 +149,51 @@ bool Table::remove(unsigned int key) {
   }
 }
 
-void merge(vector<Entry>& A, int p, int q, int r)
-{
-    //n1 and n2 are the lengths of the pre-sorted sublists, A[p..q] and A[q+1..r]
-    int n1=q-p+1;
-    int n2=r-q;
-    //copy these pre-sorted lists to L and R
+void mergeSort(std::vector<Entry>& A) {
 
-    vector<Entry> L(&A[p],&A[q+1]);
-    vector<Entry> R(&A[q+1],&A[r+1]);
-
-
-    //Create a sentinal value for L and R that is larger than the largest
-    //element of A
-    int largest;
-    if(L[n1-1].get_key()<R[n2-1].get_key()) largest=R[n2-1].get_key(); else largest=L[n1-1];
-    L.push_back(largest+1);
-    R.push_back(largest+1);
-
-    //Merge the L and R lists
-    int i=0;
-    int j=0;
-    for(int k=p; k<=r; k++)
-    {
-      if (L[i].get_key()<=R[j].get_key())
-        {
-            A[k]=L[i];
-            i++;
-        } else
-        {
-            A[k]=R[j];
-            j++;
-        }
-    }
+  if (1 < A.size()){
+    std::vector<Entry> array1(A.begin(), A.begin() + A.size() / 2);
+    //std::cout << "Iterator 1" << std::endl;
+    mergeSort(array1);
+    //std::cout << "Mergesort 1" << std::endl;
+    std::vector<Entry> array2(A.begin() + A.size()/2, A.end());
+    //std::cout << "Iterator 2" << std::endl;
+    mergeSort(array2);
+    //std::cout << "Mergesort 2" << std::endl;
+    merge(A, array1, array2);
+    //std::cout << "Merge" << std::endl;
+  }
+  
 }
 
-
-void mergeSort(vector<Entry>& A, int p, int r)
-{
-    //This recursively splits the vector A into smaller sections 
-    if(p<r)
-    {
-        int q=floor((p+r)/2);
-        mergeSort(A,p,q);
-        mergeSort(A,q+1,r);
-        merge(A,p,q,r);
+void merge(std::vector<Entry>& A, std::vector<Entry>& array1,
+		     std::vector<Entry>& array2){
+  int i, j, k;
+  for (i = 0, j = 0, k = 0; i < array1.size() && j < array2.size(); k++){
+    if ((((array1.at(i)).get_key())%(A.size()))
+	<= (((array2.at(j)).get_key()%(A.size())))){
+      A.push_back(array1.at(i));
+      i++;
     }
+    else if ((((array1.at(i)).get_key())%(A.size()))
+	     > (((array2.at(j)).get_key()%(A.size())))){
+      A.push_back(array2.at(j));
+     
+      j++;
+    }
+    k++;
+  }
 
-}    
+  while (i < array1.size()){
+    A.push_back(array2.at(j));
+    i++;
+  }
+
+  while (j < array2.size()){
+    A.push_back(array2.at(j));
+    j++;
+  }
+}
 
       
 /*

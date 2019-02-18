@@ -27,10 +27,42 @@ Table::Table(unsigned int entries, std::istream& input) {
       put(a);
     } 
   }
+
+Table::Table(const& Table) {
+
+  size = Table.getSize();
+  hashTable.resize(size);
+  for (int i = 0; i < Table.getMax_Entries()-1; i++) {
+    Entry a(Table[i]);
+    put(a);
+  }
+}
+
 Table::~Table() {
+  /*
+  for (int i = 0; i < size; i++) {
+    int index = hashingFunction(i);
+    if (hashTable[index])
+      delete hashTable[index];
+    delete[] hashTable;
+  */
   
-  hashTable.clear();
+  while(!hashTable.empty())
+    hashTable.pop_back();
+}
+
+Table& operator=(const Table&) {
+
+  while(!hashTable.empty())
+    hashTable.pop_back();
   
+  size = Table.getSize();
+  hashTable.resize(size);
+  for (int i = 0; i < Table.getMax_Entries()-1; i++) {
+    Entry a(Table[i]);
+    put(a);
+  }
+
 }
   
 int Table::getSize() const {
