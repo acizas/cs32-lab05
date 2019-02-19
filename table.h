@@ -69,10 +69,7 @@ class Table {
 //void mergeSort(std::vector<Entry>& A);
 //void merge(std::vector<Entry>& A, std::vector<Entry>& array1,std::vector<Entry>& array2);
 
-void mergeSort(std::vector<Entry> in, int l, int r);
-void merge(std::vector<Entry> in, int l, int m, int r);
+void mergeSort(std::vector<Entry>& A);
+void merge(std::vector<Entry>& A, std::vector<Entry>& array1,std::vector<Entry>& array2);
+
 #endif /* table_h */
-
-
-
-
